@@ -176,9 +176,13 @@ class Telegram extends Adapter
   handleUpdate: (update) ->
     @robot.logger.debug update
 
+    # check fo callback_query
+    if update.callback_query  return @robot.emit 'telegram:callback_query', update
+
     message = update.message || update.edited_message
     @robot.logger.info "Receiving message_id: " + message.message_id
-
+    
+          
     # Text event
     if (message.text)
       text = @cleanMessageText message.text, message.chat.id
